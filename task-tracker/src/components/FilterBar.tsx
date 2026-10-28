@@ -5,23 +5,30 @@ interface FilterBarProps {
   onFilterChange: (filter: Filter) => void;
 }
 
-function FilterBar({ filter, onFilterChange }: FilterBarProps) {
+function FilterBar({
+  filter,
+  onFilterChange,
+}: FilterBarProps) {
+  const filters: { label: string; value: Filter }[] = [
+    { label: "All", value: "all" },
+    { label: "Active", value: "active" },
+    { label: "Done", value: "done" },
+  ];
+
   return (
-    <div>
-      {(["all", "active", "done"] as const).map((value) => (
+    <div className="flex flex-wrap gap-3">
+      {filters.map((item) => (
         <button
-          key={value}
-          onClick={() => onFilterChange(value)}
-          style={{
-            fontWeight: filter === value ? "bold" : "normal",
-            marginRight: "10px",
-          }}
+          key={item.value}
+          type="button"
+          onClick={() => onFilterChange(item.value)}
+          className={`rounded-lg px-5 py-2 font-medium transition ${
+            filter === item.value
+              ? "bg-blue-600 text-white shadow-md"
+              : "bg-slate-100 text-slate-600 hover:bg-blue-100"
+          }`}
         >
-          {value === "all"
-            ? "All"
-            : value === "active"
-            ? "Active"
-            : "Done"}
+          {item.label}
         </button>
       ))}
     </div>

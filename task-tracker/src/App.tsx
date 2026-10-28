@@ -21,11 +21,27 @@ function App() {
     setTasks((prev) => [...prev, newTask]);
   }
 
+  function toggleTask(id: number) {
+    setTasks((prev) =>
+      prev.map((task) =>
+        task.id === id ? { ...task, done: !task.done } : task
+      )
+    );
+  }
+
+  function deleteTask(id: number) {
+    setTasks((prev) => prev.filter((task) => task.id !== id));
+  }
+
   return (
     <div>
       <h1>Task Tracker</h1>
       <TaskForm onAdd={addTask} />
-      <TaskList tasks={tasks} />
+      <TaskList
+        tasks={tasks}
+        onToggle={toggleTask}
+        onDelete={deleteTask}
+      />
     </div>
   );
 }

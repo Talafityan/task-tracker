@@ -2,14 +2,34 @@ import type { Task } from "../types";
 
 interface TaskItemProps {
   task: Task;
+  onToggle: (id: number) => void;
+  onDelete: (id: number) => void;
 }
 
-function TaskItem({ task }: TaskItemProps) {
+function TaskItem({
+  task,
+  onToggle,
+  onDelete,
+}: TaskItemProps) {
   return (
     <li>
-      <span>{task.title}</span>
-      {" - "}
-      <span>{task.priority}</span>
+      <input
+        type="checkbox"
+        checked={task.done}
+        onChange={() => onToggle(task.id)}
+      />
+
+      <span
+        style={{
+          textDecoration: task.done ? "line-through" : "none",
+        }}
+      >
+        {task.title} - {task.priority}
+      </span>
+
+      <button onClick={() => onDelete(task.id)}>
+        Delete
+      </button>
     </li>
   );
 }
